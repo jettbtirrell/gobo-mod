@@ -1,0 +1,49 @@
+# project
+blockbench/
+
+# gradle
+
+.gradle/
+build/
+out/
+classes/
+
+# eclipse
+
+*.launch
+
+# idea
+
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# vscode
+
+.settings/
+.vscode/
+bin/
+.classpath
+.project
+
+# macos
+
+*.DS_Store
+
+# fabric
+
+run/
+
+# java
+
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr
+
+# minecraft reference sources (decompiled, regenerate with genSources)
+mc-sources/
+
+# todo notes (step-by-step guides written by Claude)
+todo/

@@ -1,0 +1,27 @@
+{
+	"schemaVersion": 1,
+	"id": "blub",
+	"version": "${version}",
+	"name": "Blub",
+	"description": "A small, tameable blob of a creature that waddles after you and bounces projectiles back.",
+	"authors": [
+		"jettbtirrell"
+	],
+	"license": "CC0-1.0",
+	"icon": "assets/blub/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.blub.BlubMod"
+		],
+		"client": [
+			"com.blub.client.BlubModClient"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
