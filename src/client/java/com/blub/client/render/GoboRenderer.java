@@ -40,6 +40,8 @@ public class GoboRenderer extends MobRenderer<Gobo, GoboRenderState, GoboModel> 
         state.rightArmPose = armPose(entity, HumanoidArm.RIGHT);
         state.isAggressive = entity.isAggressive();
         state.isSitting = entity.isInSittingPose();
+        state.isAdmiring = entity.isAdmiringPose();
+        state.isUnhappy = entity.isUnhappy();
     }
 
     private static ArmPose armPose(Gobo entity, HumanoidArm arm) {

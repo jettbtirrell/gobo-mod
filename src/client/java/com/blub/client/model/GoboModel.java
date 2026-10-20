@@ -4,7 +4,6 @@ import com.blub.BlubMod;
 import com.blub.client.render.GoboRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -17,6 +16,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 
 public class GoboModel extends HumanoidModel<GoboRenderState> {
@@ -66,11 +66,33 @@ public class GoboModel extends HumanoidModel<GoboRenderState> {
 			leftArm.y += drop;
 			rightLeg.y += drop;
 			leftLeg.y += drop;
-			rightLeg.xRot = leftLeg.xRot = -Mth.HALF_PI;
-			rightLeg.yRot = -0.2F;
-			leftLeg.yRot = 0.2F;
+			// Same leg pose as a player riding: knees angled outward.
+			rightLeg.xRot = leftLeg.xRot = -1.4137167F;
+			rightLeg.yRot = 0.31415927F;
+			leftLeg.yRot = -0.31415927F;
+			rightLeg.zRot = 0.07853982F;
+			leftLeg.zRot = -0.07853982F;
 			rightArm.xRot = leftArm.xRot = -0.3F;
 			return;
+		}
+
+		// Same pose as PiglinModel's ADMIRING_ITEM: look down at the ingot, offhand arm raised.
+		if (state.isAdmiring) {
+			head.xRot = 0.5F;
+			head.yRot = 0.0F;
+			ModelPart offArm = state.mainArm == HumanoidArm.RIGHT ? leftArm : rightArm;
+			offArm.yRot = state.mainArm == HumanoidArm.RIGHT ? 0.5F : -0.5F;
+			offArm.xRot = -0.9F;
+		} else if (state.isUsingItem && state.useItemHand == InteractionHand.OFF_HAND) {
+			// Eating: raise the offhand arm to the mouth and bob it.
+			ModelPart offArm = state.mainArm == HumanoidArm.RIGHT ? leftArm : rightArm;
+			offArm.yRot = state.mainArm == HumanoidArm.RIGHT ? 0.4F : -0.4F;
+			offArm.xRot = -1.3F + Mth.sin(state.ticksUsingItem * 1.5F) * 0.1F;
+		}
+
+		// Head shake: turn left and right.
+		if (state.isUnhappy) {
+			head.yRot = 0.6F * Mth.sin(0.45F * state.ageInTicks);
 		}
 
 		float phase = state.walkAnimationPos * 0.6662F;
@@ -86,12 +108,6 @@ public class GoboModel extends HumanoidModel<GoboRenderState> {
 		rightArm.y -= bounce;
 		leftArm.y -= bounce;
 		body.zRot = Mth.cos(phase) * 0.05F * strength;
-	}
-
-	@Override
-	protected void setupAttackAnimation(GoboRenderState state) {
-		super.setupAttackAnimation(state);
-		AnimationUtils.animateZombieArms(leftArm, rightArm, state.isAggressive, state);
 	}
 
 	@Override

@@ -4,4 +4,6 @@ import net.minecraft.client.renderer.entity.state.ZombieRenderState;
 
 public class GoboRenderState extends ZombieRenderState {
     public boolean isSitting;
+    public boolean isAdmiring;
+    public boolean isUnhappy;
 }
